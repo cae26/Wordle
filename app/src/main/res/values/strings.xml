@@ -7,4 +7,7 @@
     <string name="guess_2_check">Guess #2 Check</string>
     <string name="guess_3">Guess #3</string>
     <string name="guess_3_check">Guess #3 check</string>
+    <string name="game_won">You won</string>
+    <string name="restart_game">RESTART</string>
+    <string name="guess_buttton">GUESS</string>
 </resources>

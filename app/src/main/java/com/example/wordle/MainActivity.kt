@@ -1,8 +1,12 @@
 package com.example.wordle
 //package com.example.FourLetterWordList
 
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
@@ -43,11 +47,13 @@ class MainActivity : AppCompatActivity() {
 
         val button=findViewById<Button>(R.id.button)
 
+
+
         button.setOnClickListener {
 
             //testing.text=wordToGuess
             val strValue = simpleEditText.text.toString().uppercase()
-
+            val strResult = checkGuess(strValue)
             simpleEditText.onEditorAction(EditorInfo.IME_ACTION_DONE)
             simpleEditText.setText(null);
 
@@ -55,48 +61,56 @@ class MainActivity : AppCompatActivity() {
             if(counter==0){
 
                 guessOne.text=strValue
-                gCheckOne.text = checkGuess(strValue)
+                gCheckOne.text = checkGuessFormat(strValue)
                 gTextOne.visibility=View.VISIBLE
                 guessOne.visibility=View.VISIBLE
                 gCheckOne.visibility=View.VISIBLE
-                if (checkGuess(strValue)=="OOOO"){
-                    textView.text="You won"
+                if (strResult=="OOOO"){
+                    textView.text=getString(R.string.game_won)
                     textView.visibility=View.VISIBLE
                 }
+                counter++
             }
             if(counter==1){
                 guessTwo.text=strValue
-                gCheckTwo.text = checkGuess(strValue)
+                gCheckTwo.text = checkGuessFormat(strValue)
                 gTextTwo.visibility=View.VISIBLE
                 gtext2.visibility=View.VISIBLE
                 guessTwo.visibility=View.VISIBLE
                 gCheckTwo.visibility=View.VISIBLE
-                if (checkGuess(strValue)=="OOOO"){
-                    textView.text="You won"
+                if (strResult=="OOOO"){
+                    textView.text=getString(R.string.game_won)
                     textView.visibility=View.VISIBLE
                 }
+                counter++
 
             }
             if(counter==2){
                 guessThree.text=strValue
-                gCheckThree.text = checkGuess(strValue)
+                gCheckThree.text = checkGuessFormat(strValue)
                 gTextthree.visibility=View.VISIBLE
                 gtext3.visibility=View.VISIBLE
                 guessThree.visibility=View.VISIBLE
                 gCheckThree.visibility=View.VISIBLE
-                if (checkGuess(strValue)=="OOOO"){
-                    textView.text="You won"
+                if (strResult=="OOOO"){
+                    textView.text=getString(R.string.game_won)
                     textView.visibility=View.VISIBLE
+
                 }
+                counter++
             }
-            if(counter==3){
-
-
-            }
-
-            counter++
 
         }
+        if(counter==3){
+            button.text=getString(R.string.restart_game)
+            button.setOnClickListener {
+                counter=0
+                button.text=getString(R.string.guess_buttton)
+
+            }
+
+        }
+
 
 
     }
@@ -115,6 +129,7 @@ class MainActivity : AppCompatActivity() {
         for (i in 0..3) {
             if (guess[i] == wordToGuess[i]) {
                 result += "O"
+
             }
             else if (guess[i] in wordToGuess) {
                 result += "+"
@@ -123,6 +138,37 @@ class MainActivity : AppCompatActivity() {
                 result += "X"
             }
         }
+
+
         return result
+    }
+    private fun checkGuessFormat(guess: String) : SpannableStringBuilder {
+        val colorResult = SpannableStringBuilder("")
+
+        for (i in 0..3) {
+            if (guess[i] == wordToGuess[i]) {
+                //result += "O"
+                val temp = SpannableStringBuilder(guess[i].toString())
+                temp.setSpan(ForegroundColorSpan(Color.GREEN),0,1,Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+                colorResult.append(temp)
+
+            }
+            else if (guess[i] in wordToGuess) {
+                //result += "+"
+                val temp = SpannableStringBuilder(guess[i].toString())
+                temp.setSpan(ForegroundColorSpan(Color.BLACK),0,1,Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+                colorResult.append(temp)
+            }
+            else {
+                val temp = SpannableStringBuilder(guess[i].toString())
+                temp.setSpan(ForegroundColorSpan(Color.RED),0,1,Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+                colorResult.append(temp)
+                //result += "X"
+            }
+
+        }
+
+
+        return colorResult
     }
 }
