@@ -46,6 +46,7 @@ class MainActivity : AppCompatActivity() {
         testing.text=wordToGuess
 
         val button=findViewById<Button>(R.id.button)
+        val buttonRestart=findViewById<Button>(R.id.restart)
 
 
 
@@ -68,8 +69,10 @@ class MainActivity : AppCompatActivity() {
                 if (strResult=="OOOO"){
                     textView.text=getString(R.string.game_won)
                     textView.visibility=View.VISIBLE
+                    button.visibility=View.INVISIBLE
+                    buttonRestart.visibility=View.VISIBLE
                 }
-                counter++
+
             }
             if(counter==1){
                 guessTwo.text=strValue
@@ -81,8 +84,10 @@ class MainActivity : AppCompatActivity() {
                 if (strResult=="OOOO"){
                     textView.text=getString(R.string.game_won)
                     textView.visibility=View.VISIBLE
+                    button.visibility=View.INVISIBLE
+                    buttonRestart.visibility=View.VISIBLE
                 }
-                counter++
+
 
             }
             if(counter==2){
@@ -97,18 +102,41 @@ class MainActivity : AppCompatActivity() {
                     textView.visibility=View.VISIBLE
 
                 }
-                counter++
+                textView.text=getString(R.string.try_again)
+                textView.visibility=View.VISIBLE
+                button.visibility=View.INVISIBLE
+                buttonRestart.visibility=View.VISIBLE
             }
+            counter++
 
         }
-        if(counter==3){
-            button.text=getString(R.string.restart_game)
-            button.setOnClickListener {
-                counter=0
-                button.text=getString(R.string.guess_buttton)
-
-            }
-
+//        if(counter==3){
+//            //button.text=getString(R.string.restart_game)
+//            buttonRestart.setOnClickListener {
+//                counter=0
+//                button.text=getString(R.string.guess_buttton)
+//
+//            }
+//
+//        }
+        buttonRestart.setOnClickListener{
+            counter=0
+            button.visibility=View.VISIBLE
+            buttonRestart.visibility=View.INVISIBLE
+            wordToGuess=FourLetterWordList.getRandomFourLetterWord()
+            testing.text=wordToGuess
+            gTextOne.visibility=View.INVISIBLE
+            guessOne.visibility=View.INVISIBLE
+            gCheckOne.visibility=View.INVISIBLE
+            gTextTwo.visibility=View.INVISIBLE
+            gtext2.visibility=View.INVISIBLE
+            guessTwo.visibility=View.INVISIBLE
+            gCheckTwo.visibility=View.INVISIBLE
+            gTextthree.visibility=View.INVISIBLE
+            gtext3.visibility=View.INVISIBLE
+            guessThree.visibility=View.INVISIBLE
+            gCheckThree.visibility=View.INVISIBLE
+            textView.visibility=View.INVISIBLE
         }
 
 
