@@ -9,20 +9,26 @@ import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.TextView
+import android.widget.*
+import com.github.jinatonic.confetti.CommonConfetti
+import com.github.jinatonic.confetti.ConfettiView
+import androidx.constraintlayout.widget.ConstraintLayout
+
 
 
 class MainActivity : AppCompatActivity() {
-    var counter=0
+    var counter=1
     var streakCounter=0
     var wordToGuess=FourLetterWordList.getRandomFourLetterWord()
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val constraintlayout = findViewById<ConstraintLayout>(R.id.constraintLayout)
+        val centerX: Int =500
+        val centerY: Int = 500
+
         val simpleEditText = findViewById<EditText>(R.id.et_simple)
         val streakView = findViewById<TextView>(R.id.textView3)
 
@@ -63,13 +69,14 @@ class MainActivity : AppCompatActivity() {
             simpleEditText.setText(null);
 
             textView.text=strValue
-            if(counter==0){
+            if(counter==1){
 
                 guessOne.text=strValue
                 gCheckOne.text = checkGuessFormat(strValue)
                 gTextOne.visibility=View.VISIBLE
                 guessOne.visibility=View.VISIBLE
                 gCheckOne.visibility=View.VISIBLE
+                Toast.makeText(getApplicationContext(), "guess# $counter", Toast.LENGTH_SHORT).show()
                 if (strResult=="OOOO"){
                     textView.text=getString(R.string.game_won)
                     textView.visibility=View.VISIBLE
@@ -77,16 +84,20 @@ class MainActivity : AppCompatActivity() {
                     buttonRestart.visibility=View.VISIBLE
                     streakCounter++
                     streakView.text="Streak: ${streakCounter.toString()}"
+                    Toast.makeText(getApplicationContext(), "YOU GOT IT", Toast.LENGTH_SHORT).show()
+                    CommonConfetti.explosion(constraintlayout, centerX, centerY, intArrayOf(Color.YELLOW, Color.MAGENTA, Color.BLACK,Color.RED, Color.GREEN, Color.BLUE)).oneShot()
                 }
+                Toast.makeText(getApplicationContext(), "guess# $counter", Toast.LENGTH_SHORT).show()
 
             }
-            if(counter==1){
+            if(counter==2){
                 guessTwo.text=strValue
                 gCheckTwo.text = checkGuessFormat(strValue)
                 gTextTwo.visibility=View.VISIBLE
                 gtext2.visibility=View.VISIBLE
                 guessTwo.visibility=View.VISIBLE
                 gCheckTwo.visibility=View.VISIBLE
+                Toast.makeText(getApplicationContext(), "guess# $counter", Toast.LENGTH_SHORT).show()
                 if (strResult=="OOOO"){
                     textView.text=getString(R.string.game_won)
                     textView.visibility=View.VISIBLE
@@ -94,18 +105,21 @@ class MainActivity : AppCompatActivity() {
                     buttonRestart.visibility=View.VISIBLE
                     streakCounter++
                     streakView.text="Streak: ${streakCounter.toString()}"
+                    Toast.makeText(getApplicationContext(), "YOU GOT IT", Toast.LENGTH_SHORT).show()
+                    CommonConfetti.explosion(constraintlayout, centerX, centerY, intArrayOf(Color.YELLOW, Color.MAGENTA, Color.BLACK,Color.RED, Color.GREEN, Color.BLUE)).oneShot()
 
                 }
 
 
             }
-            if(counter==2){
+            if(counter==3){
                 guessThree.text=strValue
                 gCheckThree.text = checkGuessFormat(strValue)
                 gTextthree.visibility=View.VISIBLE
                 gtext3.visibility=View.VISIBLE
                 guessThree.visibility=View.VISIBLE
                 gCheckThree.visibility=View.VISIBLE
+                Toast.makeText(getApplicationContext(), "guess# $counter", Toast.LENGTH_SHORT).show()
                 if (strResult=="OOOO"){
                     textView.text=getString(R.string.game_won)
                     textView.visibility=View.VISIBLE
@@ -113,6 +127,8 @@ class MainActivity : AppCompatActivity() {
                     streakView.text="Streak: ${streakCounter.toString()}"
                     button.visibility=View.INVISIBLE
                     buttonRestart.visibility=View.VISIBLE
+                    Toast.makeText(getApplicationContext(), "YOU GOT IT", Toast.LENGTH_SHORT).show()
+                    CommonConfetti.explosion(constraintlayout, centerX, centerY, intArrayOf(Color.YELLOW, Color.MAGENTA, Color.BLACK,Color.RED, Color.GREEN, Color.BLUE)).oneShot()
 
                 }
                 else{
@@ -141,7 +157,7 @@ class MainActivity : AppCompatActivity() {
 //
 //        }
         buttonRestart.setOnClickListener{
-            counter=0
+            counter=1
             button.visibility=View.VISIBLE
             buttonRestart.visibility=View.INVISIBLE
             wordToGuess=FourLetterWordList.getRandomFourLetterWord()
