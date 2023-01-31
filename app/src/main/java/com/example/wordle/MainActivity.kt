@@ -17,18 +17,21 @@ import android.widget.TextView
 
 class MainActivity : AppCompatActivity() {
     var counter=0
+    var streakCounter=0
     var wordToGuess=FourLetterWordList.getRandomFourLetterWord()
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val simpleEditText = findViewById<EditText>(R.id.et_simple)
+        val streakView = findViewById<TextView>(R.id.textView3)
 
         val textView = findViewById<TextView>(R.id.textView)
 
         val guessOne = findViewById<TextView>(R.id.textView5)
         val gCheckOne = findViewById<TextView>(R.id.textView7)
         val gTextOne = findViewById<TextView>(R.id.textView6)
+        val gLossText = findViewById<TextView>(R.id.textView2)
 
         val guessTwo = findViewById<TextView>(R.id.textView9)
         val gCheckTwo = findViewById<TextView>(R.id.textView12)
@@ -48,12 +51,13 @@ class MainActivity : AppCompatActivity() {
         val button=findViewById<Button>(R.id.button)
         val buttonRestart=findViewById<Button>(R.id.restart)
 
-
+        streakView.text="Streak: ${streakCounter.toString()}"
 
         button.setOnClickListener {
 
             //testing.text=wordToGuess
             val strValue = simpleEditText.text.toString().uppercase()
+
             val strResult = checkGuess(strValue)
             simpleEditText.onEditorAction(EditorInfo.IME_ACTION_DONE)
             simpleEditText.setText(null);
@@ -71,6 +75,8 @@ class MainActivity : AppCompatActivity() {
                     textView.visibility=View.VISIBLE
                     button.visibility=View.INVISIBLE
                     buttonRestart.visibility=View.VISIBLE
+                    streakCounter++
+                    streakView.text="Streak: ${streakCounter.toString()}"
                 }
 
             }
@@ -86,6 +92,9 @@ class MainActivity : AppCompatActivity() {
                     textView.visibility=View.VISIBLE
                     button.visibility=View.INVISIBLE
                     buttonRestart.visibility=View.VISIBLE
+                    streakCounter++
+                    streakView.text="Streak: ${streakCounter.toString()}"
+
                 }
 
 
@@ -100,12 +109,24 @@ class MainActivity : AppCompatActivity() {
                 if (strResult=="OOOO"){
                     textView.text=getString(R.string.game_won)
                     textView.visibility=View.VISIBLE
+                    streakCounter++
+                    streakView.text="Streak: ${streakCounter.toString()}"
+                    button.visibility=View.INVISIBLE
+                    buttonRestart.visibility=View.VISIBLE
 
                 }
-                textView.text=getString(R.string.try_again)
-                textView.visibility=View.VISIBLE
-                button.visibility=View.INVISIBLE
-                buttonRestart.visibility=View.VISIBLE
+                else{
+                    textView.text=getString(R.string.try_again)
+                    gLossText.text="The word was $wordToGuess"
+                    //gLossText.text=getString(R.string.the_word_was).toString().append()
+                    gLossText.visibility=View.VISIBLE
+                    textView.visibility=View.VISIBLE
+                    button.visibility=View.INVISIBLE
+                    buttonRestart.visibility=View.VISIBLE
+                    streakCounter=0
+                    streakView.text="Streak: ${streakCounter.toString()}"
+                }
+
             }
             counter++
 
@@ -137,6 +158,7 @@ class MainActivity : AppCompatActivity() {
             guessThree.visibility=View.INVISIBLE
             gCheckThree.visibility=View.INVISIBLE
             textView.visibility=View.INVISIBLE
+            gLossText.visibility=View.INVISIBLE
         }
 
 
